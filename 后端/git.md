@@ -162,3 +162,89 @@ git grep -e '#define' --and -e SORT_DIRENT
 git gc
 
 git fsck
+
+----------------------
++	git初始化配置
+	+ git config --global user.name "Your Name"
+	+	git config --global user.email "email@example.com"
++	初始化仓库
+	+	git init 
++	添加/提交文件
+	+	git add readme.txt
+	+	git commit -m "wrote a readme file"
++	查看版本文件状态
+	+	git status
+	+	git diff readme.txt    #是工作区(work dict)和暂存区(stage)的比较
+	+	git diff --cached    #是暂存区(stage)和分支(master)的比较
++	产看文件修改日志
+	+	git log		#查看提交历史
+	+	git log --pretty=oneline
++	切换到旧版本
+	+	 git reset --hard HEAD^
+	+	 git reset --hard 3628164
++	切换到新版本
+	+	git reflog		查看命令历史
+	+	 git reset --hard 3628164
++	回滚版本（修改未add)
+	+	git checkout -- readme.txt
+	+	丢弃工作区的修改
+	+	自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态
+	+	已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态
+	+  让这个文件回到最近一次git commit或git add时的状态
++	回滚版本（修改且add)
+	+	git reset HEAD readme.txt (把暂存区的修改撤销掉,也可回退版本)
+	+	git checkout -- readme.txt
++	回滚版本（修改且add且commit未推送远端)
+	+	切换旧版本
+	+	回滚
++	添加远程仓库
+	+	创建SSHkey(生成id_rsa和id_rsa.pub)
+	+	关联远程仓库	
+		+	$ ssh-keygen -t rsa -C "youremail@example.com" 
+		+ github 添加id_rsa.pub
+		+	github上创建新项目
+		+	git remote add origin git@github.com:michaelliao/learngit.git （关联远程仓库）
+	 	+	git push -u origin master （当前master推动到远程，第一次）
+		+	git push origin master
++	克隆远程仓库
+	+	git clone git@github.com:michaelliao/gitskills.git
++	分支
+	+	相当于新建指针指向时间线
++	新建分支并切换
+	+	git checkout -b dev
+	+	等价于
+	+	git branch dev
+	+	git checkout dev
++	查看当前分支
+	+	 git branch
++	修改并提交
+	+	 git add readme.txt 
+	+	 git commit -m "branch test"
++	切换分支
+	+	git checkout master
++	合并分支
+	+	git merge dev（合并指定分支到当前分支）
++	删除分支
+	+	git branch -d dev
+	+	git branch
++	解决冲突
+	+	git status (查看冲突）
+	+	修改冲突
+	+	git log --graph --pretty=oneline --abbrev-commit（查看分支合并图形）
+	+	合并/删除分支
+	+	git branch -d feature1
+	+	git merge dev
+	+	git merge --no-ff -m "merge with no-ff" dev
++	标签管理
+	+	git branch
+	+	git tag v1.0 （创建标签）
+	+	git tag
+	+ 	git log --pretty=oneline --abbrev-commit
+	+	git tag v0.9 6224937 （为特定分支创建标签）
+	+	git show v0.9	（查看标签信息）
+	+	git tag -a v0.1 -m "version 0.1 released" 3628164（带说明的标签）
+	+	git tag -d v0.1	（删除标签）
+	+	git push origin v1.09（推送标签）
+	+	git push origin --tags
+	+	 git tag -d v0.9
+	+	git push origin :refs/tags/v0.9 （删除远程标签）

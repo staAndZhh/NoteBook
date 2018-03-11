@@ -48,7 +48,8 @@
 # 无密码登录本地生成
 1.	查看是否以前配置过
 2.	查找.ssh隐藏文件下的是否有 id_rsa id_rsa.pub文件
-3.	生成密匙文件，代开gitbash文件
+3.	生成密匙文件，代开
+4.	bash文件
 4.	ssh-keygen -t rsa -b 4096 -C "tjzhanghuanhuan@gmail.com"
 5.	不需要密码，回车跳过
 6.	eval "$(ssh-agent -s)" 运行代理
@@ -206,3 +207,71 @@
 13.	 cat id_rsa.pub
 14.	 添加公钥到码云
 15.	 git clone git@gitee.com:staAndZhh/backend-website.git
+#	python开发
+##	mysql
+1.	sudo apt-get install mysql-server
+2.	输入密码 root
+3.	mysql -u root -p 
+4.	输入密码 root
+5.	show databases
+6.	exit
+7.	更改ip绑定位置
+8.	vim /etc/mysql/mysql.conf.d/mysql.cnf
+9.	更改 bind-address 127.0.0.1 为 = 0.0.0.0 只是为了连接方便
+10.	sudo service mysql restart
+11.	ifconfig
+12.	依次在mysql下运行
+13.	![](https://i.imgur.com/atTqr1e.png)
+14.	这样就可以在win环境下连接服务器的mysql
+15.	需要配置阿里云安全策略开放公网3306借口
+16.	详情配置如下	[http://www.jb51.net/article/121173.htm](http://www.jb51.net/article/121173.htm)
+16.	windows下配置
+17.	控制面板-程序-启用或者关闭功能-Telnet/TFTP服务器-确定
+
+#	Ubuntub安装双py
+1.	安装python的依赖
+2.	sudo apt-get install libc6-dev gcc
+3.	sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm
+4.	sudo apt-get update
+4.	sudo apt-get install python3
+5.	方法2
+6.	sudo apt-get install software-properties-common
+7.	sudo add-apt-repository ppa:jonathonf/python-3.6
+8.	sudo apt-get update
+9.	sudo apt-get install python3.6
+
+
+## py
+1.	pip install virtaulenv
+2.	pip install virtualenvwrapper
+3.	vim ~/.bashrc
+4.	![](https://i.imgur.com/hdIp7Br.png)
+4.	source ~/.bashrc
+5.	workon
+6.	makevirtualenv mxonline
+7.	pip list
+8.	workon mxonline
+9.	win10导出为包的文件
+10.	进入虚拟环境
+9.	pip freeze > requirements.txt
+10.	服务器	
+11.	vim	requirements.txt 复制内容
+12.	pip install -r requirements.txt	服务器安装
+13.	sudo apt-get install libmysqlclient-dev
+13.	pip install uwsgi
+14.	wsgi文件配
+15.	上传文件到服务器
+16.	进入django项目的文件夹中
+16.	uwsgi --http :8000 --module MxOnline.wsgi
+17.	如果进入uwsgi的层级目录：
+18.	uwsgi --http :8000 --module wsgi
+19.	python manage.py runserver
+20.	python manage.py 0.0.0.0:8000
+21.	uwsgi --http :8000 --wsgi-file test.py
+22.	python manage.py runserver 0.0.0.0:8000 #起django
+23.	uwsgi --http :8000 --module mysite.wsgi #起uwsgi
+
+##	uwsgi配置nginx
+1.	Request > Nginx > uWSGI > Django > uWSGI > Nginx > Response
+2.	请求先交由Nginx，如果是静态内容就自己处理了，如果是动态内容就交给uWSGI服务器，uWSGI服务器处理整个Django项目的Python代码，响应请求，原路返回，但是与fastcgi不同，Nginx、uWSGI和Django可以独立部署，然后整合。
+3.	ps ax | grep uwsgi

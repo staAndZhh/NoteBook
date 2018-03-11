@@ -429,3 +429,18 @@
 ----------
 #	4.1	动静分离
 +	未完成待续
+
+#	nginx常用命令
++	/usr/local/nginx/sbin/nginx              # 启动Nginx
++	/usr/local/nginx/sbin/nginx -t           # 测试配置文件是否有错误
++	/usr/local/nginx/sbin/nginx -v           # 查看Nginx版本
++	/usr/local/nginx/sbin/nginx -V           # 查看Nginx版本和编译安装时的编译参数
++	/usr/local/nginx/sbin/nginx -s stop      # 强制停止Nginx服务
++	/usr/local/nginx/sbin/nginx -s quit      # 优雅地停止Nginx服务（即处理完所有请求后再停止服务）
++	/usr/local/nginx/sbin/nginx -s reload    # 重新加载Nginx配置文件，然后以优雅的方式重启Nginx
++	    sudo apt-get remove nginx nginx-common 		# 卸载删除除了配置文件以外的所有文件。
++		sudo apt-get purge nginx nginx-common 		# 卸载所有东东，包括删除配置文件。
++		sudo apt-get autoremove 		# 在上面命令结束后执行，主要是卸载删除Nginx的不再被使用的依赖包。
++		sudo apt-get remove nginx-full nginx-common 	#卸载删除两个主要的包。
++		sudo apt-get install nginx		#	nginx安装
++	sudo apt-get install libpcre3 libpcre3-dev  	#安装关联的包
