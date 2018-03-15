@@ -2,7 +2,7 @@
 +	py:
 	>	空df df_empty = pd.DataFrame(columns=['A', 'B', 'C', 'D']) 
 +	R:
-	> 
+	> 空df data.frame(x=numeric(0),y=integer(0),z=character(0))
 ##	数据获取
 ###	csv/txt
 +	py:	pandas
@@ -171,7 +171,7 @@
 +	py
 	+	df = df[['xx_b','xx_a','xx_d','xx_c']]
 +	R
-	+	data.table::setorder(df,c(oldxx,...),c(newxx,...))
+	+	data.table::setcolorder(df,c(oldxx,...),c(newxx,...))
 	+	dplyr::select(df,c(-xx,xx,xx))
 ###	空值查找/处理
 +	py
@@ -196,6 +196,9 @@
 	+	pd.duplicated()
 	+	pd.drop_duplicates()
 	+	pd.drop_duplicates(['xx'])
++	R
+	+ 	df[!duplicated(df),] 行数据去重
+	+	unique(df$xx) 向量去重
 ###	计数	
 ###	缺失值处理
 +	py
