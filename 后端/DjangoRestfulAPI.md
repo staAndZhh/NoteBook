@@ -85,7 +85,7 @@
 2.	集成已有的数据库
 3.	manager.py inspectdb
 4.	mysite/manage.py inspectdb > mysite/myapp/models.py
-5.	syncdb
+5.	syncdb（Django 1.9移除,直接makegiragtion) migrate
 6.	makemigration
 7.	migrate
 8.	ModeL配置
@@ -288,6 +288,9 @@
 4.	GenericView
 5.	Viewset和router
 6.	过滤|搜索|排序
+
+![](https://i.imgur.com/AASyPGE.png)
+
 			
 			
 

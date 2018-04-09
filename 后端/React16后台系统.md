@@ -140,7 +140,7 @@
 			};
 	+	src中新建index模板
 +	>		<!DOCTYPE html>
-		>	<html>
+			<html>
 		<head>
 		  <meta charset="UTF-8">
 		  <meta name ='viewPort' content="

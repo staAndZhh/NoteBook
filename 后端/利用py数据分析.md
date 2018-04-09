@@ -43,6 +43,9 @@
 >		con <- dbConnect(MySQL(),host="127.0.0.1",dbname="smnews",user="root",password="") 
 	dbListTables(con)
 	dbSendQuery(con,'SET NAMES gbk')
+	data <-as.data.table(fetch(res,-1))
+    dbClearResult(res)
+    dbDisconnect(con)
 	读数据：
 	new_his_to11 <- data.table(dbReadTable(con,'history_tem'))
 	写数据：
@@ -129,8 +132,23 @@
 ###	melt(1d)
 ###	dcast(2d)
 ###	透视表(3d)
+## 	数据转换
++	py
+	+	pd_df.to_dict()
+	+	to_excel、to_csv、to_sql、to_pickle
++	R
+
 -------------
 #	操作
+### 求长度
++	py
+	+ len
++	R
+	+	length 向量 
+	+	nchar	元素字串
+
+
+
 ###	数据行/列概述
 +	py
 	+	pd.head()
