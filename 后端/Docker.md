@@ -77,6 +77,8 @@
 找到安装目录下的vboxdrv文件夹，
 如D:\Program Files\Oracle\VirtualBox\drivers\vboxdrv，
 右击VBoxDrv.inf，选安装，然后重启。
+
++ docker info
 ### Mac
 + 安装docker docker图形界面Kitematic
 + docker --version

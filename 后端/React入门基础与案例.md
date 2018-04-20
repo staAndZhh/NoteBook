@@ -252,3 +252,20 @@
 +	Router嵌套
 +	Router参数传递
 +	所有东西都是组件，Router,Link,Switch都是普通的组件
+
+### Form表单使用
++	Form => handleSubmit
+>	FormItem validateStatus =>{getFieldDecorator('xx',
+>	{rules:[{xx}]})}  => help  input
+>	M:hasError  handleSubmit
+>	Form.create()
+
+###	Tab切换
++ Tabs
++	TabPane => tab
+
+### RadioGroup
++	RadioGroup => Radio|RadioButton
++	RadioGroup  options
+
+
