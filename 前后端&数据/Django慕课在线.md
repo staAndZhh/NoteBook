@@ -254,27 +254,61 @@
     			verbose_name = "用户操作管理"
 
 ## char3
-###	登录设置
+###	登录设置基于类
 1.	post中csrf验证配置
 	>		<form>
 		{%	csrf_token	%}
 		</form>
 
-2.	登录用户名判断(基于函数/基于类：略去）
-	1.	登录界面继承view
-	2.	url配置 url('xx',LoginView.as_view(),name = 'login'）
-	3.	form表单验证：新建forms文件，继承forms.Form
-		>		class LoginForm(forms.Form):
+2.	基于类判断
++ step1:
++	直接返回界面
+>	from django.views.generic import  TemplateView
+
+>	urlpatterns = [
+    url('^xadmin/', xadmin.site.urls),
+    url('^login/$',TemplateView.as_view(template_name='login.html'),name='login')]
+
++ step2:
++	填写views
++	views
+>		def login(request):
+>		if request.method =='POST':
+>			pass
+>		elif request.method =='GET':
+>			return render(request,'login.html',{})
+
++	url填写
+>		from users.views import login
+>		urlpatterns = [
+    url('^xadmin/', xadmin.site.urls),
+    url('^login/$',login,name='login')]
+
++	step3:
++	html中form表单添加 csrftoken
+>	  <form>
+>	                {% csrf_token %}
+                </form>
+###	登录用户名判断(基于函数/基于类：略去）
+1.	登录界面继承view
+2.	setting配置
+	>		urlpatterns = [
+    	url(r'^xadmin/', xadmin.site.urls),
+    	url('^$', IndexView.as_view(), name="index"),
+    	url('^login/$', LoginView.as_view(), name="login"),
+2.		url配置 url('xx',LoginView.as_view(),name = 'login'）
+3.	form表单验证：新建forms文件，继承forms.Form
+	>		class LoginForm(forms.Form):
 		    username = forms.CharField(required=True)
 		    password = forms.CharField(required=True, min_length=5)
-	1.	使用添加自定义authenticate验证models
-	2.	添加邮箱密码验证，使用自定义的authenticate方法
-	3.	填写验证逻辑
-		+	setting中添加认证类
-			>	AUTHENTICATION_BACKENDS = (  
+1.	使用添加自定义authenticate验证models
+2.	添加邮箱密码验证，使用自定义的authenticate方法
+3.	填写验证逻辑
+	+	setting中添加认证类
+		>	AUTHENTICATION_BACKENDS = (  
     	'users.views.CustomBackend',)
-		+	view中自定义认证类
-			>		from django.contrib.auth.backends import ModelBackend
+	+	view中自定义认证类
+		>		from django.contrib.auth.backends import ModelBackend
 				from django.db.models import Q
 				class CustomBackend(ModelBackend):
 			    def authenticate(self, username=None, password=None, **kwargs):
@@ -284,8 +318,8 @@
 			                return user
 			        except Exception as e:
 			            return None
-		+	添加登录判断逻辑(返回错误信息)
-			>
+	+	添加登录判断逻辑(返回错误信息)
+		>
 				from django.views.generic.base import View
 				class LoginView(View):
 				    def get(self, request):
@@ -318,7 +352,7 @@
 	+	django.contrib.sessions模块默认配置
 
 ###	注册/邮箱验证设置
-4.	用户注册
+4.	用户注册验证码
 	1.	url注册url('xx',RegisterView.as_view(),name = 'register'）
 	3.	django验证码基本设置:
 		1.	django-simple-captcha
@@ -500,8 +534,7 @@
 1.	Templete模板继承
 	2.	{%	block xxx	%}	{%	endblock	%}
 	3.	{%	extend	'base.hteml'	%}
-	
-		{%block xxx	%}	xxxxxx      {%	endblock	%}
+	4.	{%block xxx	%}	xxxxxx      {%	endblock	%}
 	
 2.	机构列表页展示
 	1.	图片资源设置(setting文件中配置MEDIA_URL/MEDIA_ROOT,中间件配置，url配置)

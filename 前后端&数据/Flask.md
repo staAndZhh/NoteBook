@@ -108,7 +108,7 @@
 
 + 使用
 +	命令行：python manage.py server
-+	命令行：python manage.py hell
++	命令行：python manage.py shell
 +	测试命令行：app
 ### 数据库集成与新建
 +	pip install flask-sqlalchemy

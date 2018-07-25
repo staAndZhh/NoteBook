@@ -266,7 +266,7 @@
 17.	如果进入uwsgi的层级目录：
 18.	uwsgi --http :8000 --module wsgi
 19.	python manage.py runserver
-20.	python manage.py 0.0.0.0:8000
+20.	python manage.py runserver 0.0.0.0:8000
 21.	uwsgi --http :8000 --wsgi-file test.py
 22.	python manage.py runserver 0.0.0.0:8000 #起django
 23.	uwsgi --http :8000 --module mysite.wsgi #起uwsgi

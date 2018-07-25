@@ -1,5 +1,5 @@
 # Django 
-1.	框架结构
+1.  框架结构
 1. ORM设计
 2. 自定义User
 3. xadmin安装和使用

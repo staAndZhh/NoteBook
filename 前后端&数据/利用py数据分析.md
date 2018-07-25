@@ -101,6 +101,16 @@
 +	df.at[dates[0],'A'] = 0
 +	df.iat[0,1] = 0
 +	df.loc[:,'D'] = np.array([5] * len(df))
+###	筛选
++	py
++	df.isin(['b','c'])
++	df[df.E.isin(['a','c'])]
++	df[df[某列].isin(条件)&df[某列].isin(条件)]
++	df.isin({'某列'：[条件],'某列':[条件],})
++	df[df.isin({'D':[0,3],'E':['a','d']})]
+###	反筛选
++	py
++	在前面加上 ~
 ###		表
 
 ##	Update
@@ -140,9 +150,23 @@
 
 -------------
 #	操作
+## 判断2数据框是否完全相同
++	py
+	+	df1.eq(df2).values.all()
+	+ 	df1.gt(df2).values.all()
+	+	(df1==df2).values.all()
+	+	any()
+	+	all()
++	R
+	+	内容是否相同：identical(a, b) 
+	+	哪一列的结果有差别：all.equal(a1, a2) 
+	+	match(a1, a2)
+	+	具体是哪行哪列有差别：which(a1!=a2, arr.ind = TRUE)
+	+ 	all(df$xx==df1$xxx)
 ### 求长度
 +	py
-	+ len
+	+	len
+	+	pd.xx.unique().shape[0]
 +	R
 	+	length 向量 
 	+	nchar	元素字串
@@ -154,6 +178,7 @@
 	+	pd.head()
 	+	pd.tail(10)
 	+	pd.dtypes
+	+	loandata.describe().astype(np.int64).T
 +	R
 	+	head(df)
 	+	tail(df,10)
@@ -184,7 +209,6 @@
 +	R
 	+	dplyr::rename(df,新名=旧名)
 	+	data.table::setnames(df,旧名，新名）
-
 ###	更改顺序
 +	py
 	+	df = df[['xx_b','xx_a','xx_d','xx_c']]
@@ -204,6 +228,7 @@
 +	R
 	+	data.table::df[is.na(xx),,]
 	+	lentgh(is.na(df$xx))
+	+	x[is.na(x)]<-0
 ###	离群值
 +	py
 	+	pd[(np.abs(pd) > 3).any(1)]
@@ -217,16 +242,21 @@
 +	R
 	+ 	df[!duplicated(df),] 行数据去重
 	+	unique(df$xx) 向量去重
+	+	df[!duplicated(df$xx,df$xxx),] 多行数据索引去重
 ###	计数	
 ###	缺失值处理
 +	py
 	+	Ser.fillna(xxx)
++	R
+	+	 ts[is.na(ts)]<-0
+	+	 ts[ts==0]<-100
 ###	值替换
 +	py
 	+ Ser.replace(xx，xx)
 	+ Ser.peplace([xx,xx],[xx,xx])
 	+ Ser.peplace({xx:xxx,xx：xxx})
 +	R
+	+	
 ###	数值变因子
 +	py
 	+ cats = pd.cut([1,2,3,4,5],[1,3])
@@ -306,6 +336,8 @@
 ###	统计类函数计算
 +	py
 	+	df.mean()	df.mean()
++	R
+	+	max() min()  min(a[a!=min(a)])
 ###	特定行列数据
 ###	条件数据
 ###	排名/排序
@@ -427,7 +459,21 @@
 	+	print(pd_df.set_index(["C"]).reset_index().index) 
 	+	print(data.set_index(["C"]).reset_index().columns) 
 
+### 交叉验证
++	py
+	+	from sklearn import cross_validation as cv
+	+	train_data, test_data = cv.train_test_split(df, test_size=0.25)	
 
-----------
+### 列变行数字转置
++	py
+	+	train_data_matrix = np.zeros((n_users, n_items))
+	+	for line in train_data.itertuples():
+	+		train_data_matrix[line[1]-1, line[2]-1] = line[3]	    
+	+	test_data_matrix = np.zeros((n_users, n_items))
+	+	for line in test_data.itertuples():
+	+	    test_data_matrix[line[1]-1, line[2]-1] = line[3]
+
+
 ----------------
 # 图表
+
