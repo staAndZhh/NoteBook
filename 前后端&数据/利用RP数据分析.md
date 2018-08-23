@@ -473,6 +473,11 @@
 	+	for line in test_data.itertuples():
 	+	    test_data_matrix[line[1]-1, line[2]-1] = line[3]
 
+### 求行/列的百分比
++	py
++	R
+	+	table()
+	+	prop.table(x,1)
 
 ----------------
 # 图表
