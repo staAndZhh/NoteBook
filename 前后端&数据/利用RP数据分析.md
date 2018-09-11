@@ -1,6 +1,6 @@
 ##	数据创建
-+	py:
-	>	空df df_empty = pd.DataFrame(columns=['A', 'B', 'C', 'D']) 
++	py:	
+	>	df df_empty = pd.DataFrame(columns=['A', 'B', 'C', 'D']) 
 +	R:
 	> 空df data.frame(x=numeric(0),y=integer(0),z=character(0))
 ##	数据获取

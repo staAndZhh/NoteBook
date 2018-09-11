@@ -108,12 +108,24 @@
 +	AntD
 +	暴露Webpack配置
 +	安装并修改less-loader
-+	yarn add react-router-dom axios less-loader
++   create-react-app my-app
++   cd my-app/
++   npm start
++   yarn/npm eject 
++	yarn add react-router-dom axios less-loader less
 +	yarn eject
-+	复制 test的css,更改为less文件
-+	yarn add babel-plugin-import
-
-## Antd使用
++	更改wenpack.config.dev.js:复制 test的css,更改为less文件;在最后添加loader：添加less-loader；
++	重新启动项目
++   复制配置的文件搭配config.prod
++	yarn add babel-plugin-import antd babel-loader
++ babel-plugin-import 按需加载
++ 在配置文件里添加antd的全局导入
++  ![](https://i.imgur.com/E8XYEnc.png)
++ 在test的babel loader下面添加：（js，jsx，mjs）下的options下的plugins中添加import：libraryName：xx，style：xx
++ 修改主题颜色
++ ![](https://i.imgur.com/evYuefl.png)
++  修改配置中的变量
+### Antd使用
 +	import {Button} from 'antd';
 +	import 'antd/dist/antd.css';
 ## 主页结构开发
@@ -122,18 +134,33 @@
 	+	目录结构定义
 	+	栅格系统使用
 	+	calc计算方法使用
-+	新建components文件夹
-+	在components文件夹中新建Footer,Header，NavLeft文件夹：index.jsx,index.css
+### 页面结构
++ 左右两边，右边分为上中下
++   新建管理类js：src/admin.js
++	新建components文件夹:src/components
++	在components文件夹中新建Footer,Header，NavLeft文件夹,文件夹下新建index.jsx,index.css
+	+ src/components/Footer,Header，
+	+ src/components/Footer,Header，NavigatorLeft/index.js，index.css
++ 文件内容
++	导入react组件
++	导出对象类：组件继承并render
 	+	import React from 'react';
 	+	export default class Admin extends React.Component{
 		render(){	return (<div></div>);
 				}
 	}
+### 栅格系统
++	栅格系统
+	+	import { Row } from 'antd';  
+	+	<Row><Col span=xx></Col></Row>
++  ![](https://i.imgur.com/mmeSXZH.png)
+
++ 新建全局样式表：src/style/common.less
++ import './style/common.less';
 +	新建style文件夹：新建common.less
 	+	@colorA:'red'
 	+	div{color:@colorA}
-+	栅格系统
-	+	<Row><Col span=xx></Col></Row>
++  ![](https://i.imgur.com/m0wTWal.png)
 ##	菜单组件开发
 +	Nav菜单资源文件
 +	src/config/menuConfig.js

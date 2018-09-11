@@ -152,3 +152,32 @@
 
 +	docker container ls
 +	 docker container ls -a
+
+---------
+# linux
++ sudo wget-qO- https://get.docker.com/ l sh
++ sudo usermod -aG docker zhh
++ docker version
++ docker run ubuntun echo hello docker
++ docker images
++ docker run -p 8080:80 -d daocloud.io/nginx 端口映射和直接返回 
++ docker cp
++ docker commit -m
++ docker stop
++ docker rmi 
++ docker pull，build，images，run，ps，rm，rmi，cp，commit
+# dockerfile
+## base
++ **FROM** alpine：lastest
++ **MAINTAINER** xbf
++ **CMD** echo ‘hello docker’
++ touck Dockerfile
+## complex
++ **FROM** ubuntun
++ **MAINTAINER** xbf
++ **RUN** apt-get update
++ **RUN** apt-get install -y nginx
++  **COPY** index.html /var/www/html
++  **ENTRYPOINT** ["/usr/sbin/nginx","-g","daemon off;"]
++  **EXPOSE** 80
++ touck Dockerfile
