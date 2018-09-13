@@ -132,7 +132,16 @@
 ###		多表
 
 ##	Delete
-###		行
+###		删除行
++	py
+	+ 	df_today_all.drop(df_today_all[df_today_all['turnoverratio']==0].index,inplace=True)
+	+	df.drop('成交数量',axis=1)
+	+  	df.drop(df.index[7])
++ R
+	+	dataname[dataname==0]<-NA
+	+	new<-na.omit(dataname)
+	+	newdata<-dataname[which(varname != 0),]
+	+	data[-which(job=="unknown"),]
 ###		列
 ###		表
 ###		多表
@@ -316,6 +325,11 @@
 	+	data['food'].map(lambda x: meat_to_animal[x.lower()])
 +	R
 	+
+### vlookup
++ py
+	+ 
++ r
+	+ test$V4 <- control$V2[match(test$V3, control$V1)]
 ###	集合数据交叉并补
 +	py
 	+ 	set	
