@@ -166,4 +166,79 @@
 +	src/config/menuConfig.js
 	+	export default [];
 +	使用：import MenuConfig from './../../config/menuConfig'
-+	
+
+#---------------------------
+##	2 主页架构
+### base 插件,less文件配置
+####    content
++   必须插件
+    +   react-router ,axios
+    +   antd
+    +   暴露webpack配置
+    +   安装less-loader
+    +   修改lessloader
+#### install 1
++   yarn add react-router-dom axios less-loader less
++   yarn eject
++   修改配置:webpack-config-dev
++   复制css,改为less,并添加loader
+>             {
+            test: /\.less$/,
+            use: [
+              require.resolve('style-loader'),
+              require.resolve('css-loader'),
+              {
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options              
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),
+                  ],
+                },
+              },
+              {
+                loader: require.resolve('less-loader'),
+                options: {
+                  modifyVars: {
+                    "@primary-color": "#616161"
+                  },
+                  javascriptEnabled: true
+                },
+              },
+            ],
+          },
+          
++ **如果出现错误Remove untracked files, stash or commit any changes, and try again.**
+    + git commit一下
++   ** 找不到less文件**
+    +   降级less 到2.0版本
+    +   yarn add less@^2.7.3   
+#### install 2
++   yarn add antd
++   yarn add babel-plugin-import 按需加载css文件
++   配置文件中导入antd的style的样式
++   babel-loader 的 plugins 下面添加
+>                   ['import', {
+                  libraryName: 'antd',
+                  style: 'css'
+                }],
+### 主页结构开发
++   页面结构
++   目录结构
++   栅格系统
++   calc计算方法
+### 菜单组件
+### 头部组件
+### 底部组件
+#-------------------------
+#	3 Router
+#-------------------------
+##	4-6 UI组件
+#-------------------------
+##	7-8 单车基本功能
+#-------------------------
+##	9 项目工程化
+#-------------------------
+##	10-13	核心模块
+#-------------------------
+##	14 Redux
