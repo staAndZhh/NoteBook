@@ -1,4 +1,4 @@
-
+#------------------------first----------------
 ## 配置
 +	npm install -g create-react-app
 +	create-react-app jianshu
@@ -20,7 +20,7 @@
 +	搜索reset.css，复制内容在global中
 
 ## 头部区块
-+	src/common/header/index.js ->class Header
++	src/common/heaheaderder/index.js ->class Header
 +	src/common/header/style.js
 +	style.js
 +	![](https://i.imgur.com/jCl8lUT.png)
@@ -28,3 +28,5 @@
 >	<HeaderWrapper><Logo href = '/'/></HeaderWrapper>
 
 ## Nav
+
+_   
