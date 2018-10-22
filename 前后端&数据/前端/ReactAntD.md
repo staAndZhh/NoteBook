@@ -38,7 +38,7 @@
 +	10-13	核心模块
 +	14 Redux
 ## 前置知识
-+	html/js/css
++	html/js/css3
 +	React
 +	ES6
 ## 收获
