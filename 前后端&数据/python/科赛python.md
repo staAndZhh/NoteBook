@@ -181,7 +181,7 @@
 +   index = np.argsort(x)
 +   x[index]
 +   np.sort(x,axis=0)
-#------char4 A pandas-----------
+#------char4 B pandas-----------
 +   基本数据结构:series,DataFrame
 +   data = pd.Series([1,2.0,3.0])
 +   data.index
@@ -229,3 +229,9 @@
 ## Pivoting
 +   daf.pivot_table('xx',index='xx',columns='xx')
 +   大量数据的Filter，可以用pd.eval()或者df.query()
+#------char5  matplotlib-----------
++   %matplotlib inline
++   plt.show()
++   import matplotlib.pyplot as plt
++   plt.style.use('seaborn-whitegrid')
++   
