@@ -125,9 +125,72 @@
 + 修改主题颜色
 + ![](https://i.imgur.com/evYuefl.png)
 +  修改配置中的变量
+###  antd 全局导入
++  在 oneof 的babel-loader下添加
++   重启 yarn start
+>  // Process application JS with Babel.
+>         // The preset includes JSX, Flow, and some ESnext features.
+
+>       {
+            test: /\.(js|mjs|jsx|ts|tsx)$/,
+            include: paths.appSrc,
+            loader: require.resolve('babel-loader'),
+            options: {
+              customize: require.resolve(
+                'babel-preset-react-app/webpack-overrides'
+              ),
+
+              plugins: [
+                [
+                  require.resolve('babel-plugin-named-asset-import'),
+                  {
+                    loaderMap: {
+                      svg: {
+                        ReactComponent: '@svgr/webpack?-prettier,-svgo![path]',
+                      },
+                    },
+                  },
+                ],
+
+                ['import',{libraryName:'antd', style:true}],
+
+
+              ],
+### less 使用导入
++   在cssRegex和cssModuleRegex 下面添加
++   yarn start
+>               {
+                test: /\.less$/,
+                use: [
+                    require.resolve('style-loader'),
+                    require.resolve('css-loader'),
+                    {
+                        loader: require.resolve('postcss-loader'),
+                        options: {
+                            ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
+                            plugins: () => [
+                                require('postcss-flexbugs-fixes'),
+                            ],
+                        },
+                    },
+                    {
+                        loader: require.resolve('less-loader'),
+                        options: {
+                            modifyVars: { "@primary-color": "#f9c700" },
+                        },
+                    },
+                ],
+            },
+### 修改主题颜色
++   添加@primary-color 
++   重启 yarn start
+>    options: {
+                            modifyVars: { "@primary-color": "#f9c700" },
+                        },
 ### Antd使用
 +	import {Button} from 'antd';
 +	import 'antd/dist/antd.css';
+
 ## 主页结构开发
 +	主页结构定义
 	+	页面结构定义
@@ -227,11 +290,45 @@
 +   目录结构
 +   栅格系统
 +   calc计算方法
+### 页面结构
++   footer
++   header
++   navLeft
++   admin
++   全局样式
+>   
 ### 菜单组件
 ### 头部组件
 ### 底部组件
 #-------------------------
 #	3 Router
++ 4.0版本不需要路由配置,一切皆组件
++   react-router:提供router的核心api,包含Router,Route,Switch等
++   react-router-dom:除了react-router的功能,还提供了BrowserRouter,HashRouter,Route,Link,NavLink等
++   npm install react-router-dom --save
++   yarn add react-router-dom
+### react-router-dom核心用法
++   HashRouter和BrowserRouter
++   Route:path,exact,component,render  
++   NavLink,Link
++   Switch 
++   Rediect
+### HashRouter和BrowserRouter
++   hashrouter:localhost:3000/#/admin/button
++   browserrouter:localhost:3000/admin/button
+### Link
++   Link to='/'
++   Link {{pathname:'/three/7'}}
++   Route path='/three/:number' 取值:this.props.match.params.number
++   Link的location对象
++   {pathname:'/',search:'',hash:'',key:'abc123',state:{}} 取值:props.match.params.number
+### Redict
++   redict to="/admin/home"
+###  react-router
+###   react-router-dom
+###   react-router-dom 核心用法
+### 路由配置化
+
 #-------------------------
 ##	4-6 UI组件
 +   button
