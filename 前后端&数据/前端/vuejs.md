@@ -21,4 +21,6 @@
 +	cd my-project
 +	npm install
 +	npm run dev 运行程序
-## 
+#---------------------------
+# vuejs实战
+
