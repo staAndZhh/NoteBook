@@ -31,4 +31,9 @@
 +   sass
 +   vscode
 ## hybrid开发
-+   
+## 技术栈
++   webpack4
++   sass
++   react + redux
++   rem
++   jsbridge+ios  

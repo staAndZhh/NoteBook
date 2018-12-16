@@ -291,10 +291,31 @@
 
 ![](https://i.imgur.com/AASyPGE.png)
 
-			
-			
-
-
+------------------
+# 接口
++   view实现 rest api接口
++   genericview 实现api接口
++   viewset 和router 实现api接口和url配置
++   django_filter,searchFilter,OrderFilter,分页
++   通用mixins			
+# 权限和认证
++   authentication用户认证设置
++   动态设置permisssion，authenticaiton
++   validators 实现字段验证
+# 序列化和表单验证
++   serializer
++   ModelSerializer
++   动态设置serializer   
+# 支付，登录和注册
++   json web token 实现登录
++   手机注册
++   支付宝支付
++   第三方登录
+# 进阶开发
++   drf源码
++   文档自动化管理
++   drf缓存
++   Throttling对用户和ip限速
 
 
 
