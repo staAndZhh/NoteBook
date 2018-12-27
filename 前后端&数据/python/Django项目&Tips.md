@@ -428,7 +428,24 @@
         return render(request, "login.html")
 ----------------------
 # xadmin 进阶
+## 权限控制
++ 注册自定义userfile
+## 自定义admin
+### 排序，编辑，隐藏
+>	# Course的admin管理器
+	class CourseAdmin(object):
+    '''课程'''
+    list_display = [ 'name','desc','detail','degree','learn_times','students']   #显示的字段
+    search_fields = ['name', 'desc', 'detail', 'degree', 'students']             #搜索
+    list_filter = [ 'name','desc','detail','degree','learn_times','students']    #过滤 
+    model_icon = 'fa fa-book'            #图标
+    ordering = ['-click_nums']           #排序
+    readonly_fields = ['click_nums']     #只读字段，不能编辑
+    exclude = ['fav_nums']               #不显示的字段
 
+
+### 列表可以直接编辑
+### 
 ----------------------
 # 序列化数据
 ## 原生
