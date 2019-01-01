@@ -1,3 +1,24 @@
+## bootstrap
++	.container .container-fluid
++	.row  .col-xs-4 col-md-offset-4 右侧偏移
++	列 padding 设置间隔，.row设置负margin抵消 padding
+## 栅格布局参数
++	手机，平板，桌面显示器，大桌面显示器
++	超小，小，中等，大
++	.col-xs- sm md lg
+## 响应式重置
++	.clearfix visible-xs-block
+## 列排序
++	col-md-push 向上
++	col-md-pull 向下
+## 标题
++	h1-6 mark del s ins u  strong em abbr br blockquote
++	.small .lead .text-left .text-center .text-right .text-lowercase .text-uppercase .text-capitalize  .initialism  
+## 列表
++	ul .list-unstyled
+
+------------------
+
 ## 亮点
 +	思想
 +	状态数据流分析
@@ -113,9 +134,38 @@ theme =>{ console.log(theme）；
 ## bootstrap
 +	npm install bootstrap --save
 +	import 'bootstrap/dist/css/bootstrap.min.css'
-+	
++   app.js中导入，其他文件不需导入
 ### items 
+
 +	{id：，title：，price：，date：，category：{id：，name：，type：}}
+## 图标库
++	ionicons
++	npm install --save react-ionicons
+## 类型检查
++	bug发现
++	react：PropTypes完成类型检查
++	Props的默认数值：defaultProps
++	ItemList添加PropTypes检查
+## 切换tab组件和价格组件
++	ViewTab:切换&切换项目
++	TotalPrice
+### 组件属性
++	ViewTab： activeTab='list' onTabChange={onTabChange}
++	TotalPrice： income={10000} outcome = {10000}
+
+## 月份组件
++	按钮显示传入的年月，点击按钮可以打开或关闭下拉菜单
++	显示前后4年和1-12月
++	传入的年和月，打开菜单以后高亮显示
++	点击不同的年可以切换，点击月份触发回调
+### 静态组件
++	MonthPicker： year={2018} month={8} onChange={onChange}
+### 分段开发
++	按钮：显示传入的年和月
++	下拉菜单，点击按钮切换：显示&隐藏
++	下拉菜单，显示2列：年&月份信息
++	两列添加选择高亮
++	点击年月交互
 -------
 # 步骤
 +	设计稿分析
