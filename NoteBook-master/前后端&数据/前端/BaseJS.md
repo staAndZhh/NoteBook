@@ -1,3 +1,0 @@
-# base JavaScript
-# var& control
-# 
