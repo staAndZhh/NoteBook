@@ -1,0 +1,19 @@
+# SpringBoot
+## 目录
+1.	第一个springboot
+2.	自定义属性配置
+3.	Controller使用
+4.	spring-data-jpa
+5.	事务管理
+## 前置知识
+1. 利用maven构建项目
+2. Spring注解
+3. RestfulAPI
+4. 不需要学习SpringMVC
+5. java和Maven版本保持一致
+
+# Maven
+## 介绍
+1. 基于项目对象模型，通过一小段描述信息管理项目的构建，报告和文档的软件项目管理工具
+2.	自动化管理工具
+3.	maven.apache.org
