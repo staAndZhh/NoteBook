@@ -1203,3 +1203,29 @@ store.dispatch(...)
 +   高阶组件的mapDispatchToProps:组件特殊的dispatch
 +   context放在provider中
 +   smart组件和dumb组件
+
+## immutableJS
+### Header
++	Creator
+	+	axios:data:fromJS(data)
+	+	type：constants.CHANGE_LIST
++	Reducer
+	+	oriData: fromJS({})
+	+	changeData:	state.merge({'xx':action.data, 'xxx':action.data2})
+	+	changeData2:state.set('xx':false)
++	mapState
+	+	xx：state.getIn(['header'，'focused'])
++	mapDispatch
+	+	function(xx){ dispatch(actionCreators.xx())}
+### Home
++	Creator
+	+	getMoreList:axios:dispatch(addHomeList(xx))
+	+	addHomeList: data:fromJS(xx)
++	Reducer
+	+	defaultState:fromJS({})
+	+	changeData: state.merge({'xx':fromJS(action.xx)})
+	+ 	addData:state.merge({'xx':state.get('xx').concat(action.xx)})
+### HomeComponent
++	mapState
+	+	state.getIn（['xx'，'xx'])
++	mapDispatch
