@@ -1,0 +1,101 @@
+# 导语
++ Tornado
+	+	web服务器
+	+	非阻塞式：非阻塞式和epoll运用
+	+	诞生是为了结局高并发和长连接
+	+	高并发websocker类-Tornado
++	特点
+	+	web服务器
+	+	异步http客户端 AsyncHttpClient
+	+	Tornado的web框架是非常小的web框架的核心（微服务）
+	+	天然支持长连接
+	+	学习tornado==学习asyncio
++	模块知识
+	+	tornado web基础
+	+	异步io并发编程
+	+	tornado异步http客户端AsyncHttpClient编程
+	+	异步驱动aiomysql，peewee-async
+	+	aoifiels和wtforms
+	+	项目实战
++	章节知识
+	+ tornado
+		+	tornado为啥不能用同步io
+		+	tornado的url配置
+		+	define，options，parse_comand_line
+		+	RequestHandler
+		+	tornado的template机制
+		+	tornado的UIModule
+	+	异步io并发编程原理
+		+	异步，同步，阻塞，费阻塞
+		+	select，poll，epoll
+		+	socket的费阻塞请求html
+		+	事件循环
+		+	协程
+	+	AsyncHttpClient
+		+	AsyncHttpClient
+		+	tornao实现并发爬虫
+	+	异步驱动aiomysql，peewee-async
+		+	aiomysql异步留言板
+		+	peewee的数据操作（增删改查）
+		+	peewee-async（基于协程的orm）
+		+	peewee自动生成数据表
+	+	aoifiels和wtforms
+		+	aiofile异步写入文件
+		+	wtforms表单验证
+		+	wtforms数据保存
+		+	wtforms生成html
+	+	项目实战
+		+	tornado集成ueditor富文本
+		+	装饰器的原理和tornado的authenticated
+		+	支持异步io的authenticated_async装饰器
+		+	model_to_dict完成序列化
+		+	异步方式发送短信
+		+	前后端分离：restful api
+# 环境搭建
++	安装
+	+	pycharm,python3.6/3.7
+	+	mysql：phpstudy
+# 选型区别
++	部署
+	+	tornado，gevent,asynio(3.5官方提供支持）,aiohttp：事件循环+协程io
+		+	部署方便
+	+	django
+	+	flask
+		+	阻塞io
+		+	生态丰富，容易理解
+		+	概念：web框架，usgi,uwsgi,uWSGI,nginx
+		+	部署麻烦
++	Tornado优势
+	+	异步编码整套解决方案
+	+	不只是web框架，也是web服务器
+	+	基于协程的解决方案
+	+	提供websocker的长连接（web聊天，消息推送）
++	tornado如何高并发
+	+	异步非阻塞io
+	+	基于epoll的事件循环
+	+	协程提高了代码的可读性
++	误区
+	+	tornado只提供web框架
+	+	tornado使用了就是高并发
+	+	tornado使用大量同步io
+	+	tornado只是将耗时的操作放在线程池里就可以高并发
+	+	tornado的多线程和协程的单线程是不是冲突
++	建议
+	+	减量使用async而不是 coroutine
+	+	基于coroutine是一个从生成器过渡到协程的方案
+	+	yield和await混合使用造成代码可读性差
+	+	生成器可以模拟协程，但是不必须
+	+	原生协程总体比基于装饰器的协程快
+	+	原生协防返回awaitable对象，转时期协程返回future
+# 异步和非阻塞
+## 主要功能
++	
+# tips
++	WSGI
+	+	Web Server Gateway Interface 一种规范：webserver和web application通信的规范
+	+	通信协议
+	+	两部分：server，application
++	uWSGI
+	+	web服务器，实现了WSGI协议，uwsgi，http协议
++	uwsgi
+	+	uWSGI服务器的独占协议，定义传输信息的类型

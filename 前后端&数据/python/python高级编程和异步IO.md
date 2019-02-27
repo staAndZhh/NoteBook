@@ -1,18 +1,76 @@
+# base
++	语言本身的进阶知识>框架；大公司注重语言功底
+## 进阶方式
++	大神
++	阅读源码，懂原理
++	面试，多做项目
+## 困惑
++	源码看不懂
++	自己代码优化
++	asyncio,tornado 等异步框架原理
++	python代码背后设计原理
++	生成器稀里糊涂
++	python异常看不懂
+## 概述
++	目标：高级py&并发编程
++	方法：功能-原理-应用案例
++	技术：面向对象，魔法方法，元类，生成器，多线程-协程
+
+----------
+
 # 知识点
 +	对象
+	1.	鸭子类型
+	2.	抽象基类
+	3.	MRO属性查找算法和super函数
+	4.	静态&类&实例方法
+	5.	数据封装和私有属性
+	6.	对象的自省机制
+	7.	上下文管理器
+	8.	contextlib实现上下文管理
+	9.	mixin继承模式应用
 +	魔法方法
+	1.	property动态属性
+	2.	getattr，getattribute区别
+	3.	属性描述符
+	4.	new和init区别
+	5.	元类实现ORM
 +	py序列协议
 +	dict和set
 +	迭代器&生成器
-+	socket
++	socket编程
 +	对象引用可变性垃圾回收
 +	元类编程
 +	进程线程
+	1. GIL和多线程
+	2. 线程通信，共享变量，Queue
+	3. 线程同步：Lock，RLock，Condition，Semaphores
+	4. 线程池和源码分析：ThreadPoolExcutor
+	5. 多进程：multiprocessing
+	6. 进程间通信
 +	异步io协程
+	1.	IO多路复用：select，poll，epoll
+	2.	select&回调&事件循环模式
+	3.	生成器进阶：send，close，throw和yield from
+	4.	async和await
 +	asyncio并发编程
+	1.	Future和Task
+	2.	aiohttp实现高并发抓取url
+	3.	asuncio背后的selector
+	4.	协程同步和通信
+	5.	ThreadPoolExecutor+asyncio
+
+## 环境安装
+![源码安装](https://i.imgur.com/X7K6efg.png)	
+![](https://i.imgur.com/vjfih8I.png)
+----------
 
 ## 对象
 ###	一切皆对象
++	元类编程和猴子补丁的基础
++	object和class也是对象
++	面向对象更彻底
++	类是对象的模板，也是对象；可以动态修改类的属性
 +	py中类和函数也是对象：一等公民
 	+	赋值给一个变量
 	+	添加到集合对象中
@@ -23,32 +81,46 @@
 +	type
 	+	生成类
 	+	返回一个数据类型
-
-+	type-int-1
-+	type-class-obj
-+	class是由type类生成的类
-+	object是所有类必须继承的基类
-+	object是顶层基类
-+	type也是一个类
-+	type.__bases__ object
-+	type(object)  type
-+	object.__bases__ ()
++ demo
+	+	type(1)-int
+	+	type(int)-type
+	+	type->int->1
+	+	type->class->obj
+	+	python中class也是对象
+	+	type(自定义类)-type
+	+	Student.__bases__ = object
++	type生成class
+	+	class类是由type类生成的类
++	obejct是所有类的基类的概念
+	+	object是顶层基类
+	+	object是所有类必须继承的基类
++	type也是一个类,type也是一个对象
+	+	type.__bases__ = object
+	+	type(object) = type
+	+	object和type相互指向对方
+	+	object.__bases__ = ()
 +	obj是type的实例
-+	type是type的实例
-+	type继承了obj
-+	type创建了所有对象
+	+	type是type自身的实例
+	+	type继承了obj
+	+	type创建了所有对象
+	+	一切皆对象，一切继承了object；
+	+	自己继承了自己，通过指针来实现
 +	Python的世界中，object是父子关系的顶端，所有的数据类型的父类都是它；type是类型实例关系的顶端，所有对象都是它的实例的。
+![](https://i.imgur.com/zHG5eLp.png)
 ### 内置对象
 +	对象特征
-	+	身份id，类型，值
-+	None(全局只有一个）
-+	数值：int,float,complex,bool
-+	迭代类型:for遍历
-+	序列类型：list,range,tuple(()),str,array,bytes
-+	映射（dict)
-+	集合:set,frozenset
-+	上下文管理类型:with语句
-+	其他：模块类型，class和实例，函数，方法，代码，obj,type,elipsis（...),notimplemented对象
+	+	身份(id,内存地址,指针)，类型，值
++	常见数据类型
+	+	None(全局只有一个）
+	+	数值：int,float,complex,bool
+	+	迭代类型:for遍历
+	+	序列类型：list,range,tuple(()),str,array,bytes
+	+	映射（dict)
+	+	集合:set,frozenset
+	+	上下文管理类型:with语句
+	+	其他：模块类型，class和实例，函数，方法，代码，obj,type,elipsis（...),notimplemented对象
+
+----------
 
 ## 魔法函数
 +	什么是魔法函数
@@ -59,8 +131,11 @@
 +	python解释器会自动调用
 
 ### 定义
-+	__xx__的函数：内置函数
++	__xx__的函数：内置函数(__开头和结尾的函数）
 +	魔法函数是为了增强对象的特性：--len--，--getitem--
+### py数据模型&数据模型的影响
++	魔法函数影响py语法
++	py语法会隐藏的调用魔法函数
 
 ### 魔法函数浏览
 +	非数学运算
@@ -83,6 +158,8 @@
 	+	反向位置运算
 	+	增强赋值位运算
 
+----------
+
 ## 类和对象
 +	鸭子类型
 +	抽象基类（abc模块）
@@ -99,32 +176,48 @@
 
 ### 鸭子类型
 +	py用鸭子类型实现其他语言中的多态
+	+	java多态：animal类-say方法；继承animal方法-重写say方法
+	+	pyhton：不需要父类，只需要不同的类，都实现say方法
 +	只要实现对应的魔法函数就能调用
 
 ### 抽象基类
-+ 	抽象基类类似java中的借口
-+	必须实现抽象基类中的方法，抽象基类不能实例化
-+	不同的魔法函数赋予类不同的特性
-+	不需要继承指定的类
-+	鸭子类型+魔法函数=协议
-+	hasattr(com,"__len__")
-+	其他语言 isinstance(com,Sized)
-+	强制某个子类比必须实现某些方法
-+	需要一个抽象基类，指定子类必须实现某些方法
-+	可以使用isinstance()
-+	import abc
-+	class CacheBase(metaclass = abc.ABCMeta):
-+	@abc.abcstractmethod
-+	def get(sekf,key,value):
-+	pass
-+	from collections.abc import *
-+	推荐使用多继承少使用抽象基类
++	好处
+	+	接口的强制规定
+	+	鸭子类型isinstance
++	abc模块
+	+ 	抽象基类类似java中的借口
+	+	必须实现抽象基类中的方法，抽象基类不能实例化
++	不能实例化
++	动态语言
+	+	没类型检查
+	+	不同的魔法函数赋予类不同的特性
+	+	不需要继承指定的类
+	+	鸭子类型+魔法函数=协议
++	动态语言类型检查
+	+	hasattr(com,"__len__")
+	+	其他语言 isinstance(com,Sized)
+	+	强制某个子类比必须实现某些方法
+	+	需要判定某个对象的类型
+	+	需要一个抽象基类，指定子类必须实现某些方法
+	+	可以使用isinstance()
++	demo
+	+	使用抽象基类时，可以在创建时候就进行类型检查
+	+	import abc
+	+	class CacheBase(metaclass = abc.ABCMeta):
+	+	@abc.abcstractmethod
+	+	def get(sekf,key,value):
+	+	pass
++	python内置的抽象基类
+	+	from collections.abc import *
+	+	subclasshook函数
++	推荐使用多继承mixins少使用抽象基类
 
 ###	instance和type
 +	推荐使用isinstance少使用tpye
 +	isinstance能够检查继承链
-+	is判断id是否相同，是否是相同的一个对象
-+	==判断两个值是否相同
++	is和==
+	+	is判断id是否相同，是否是相同的一个对象
+	+	==判断两个值是否相同
 +	B继承A，type(b) is B T,type(b) is A F
 +	isinstance 都为T
 
@@ -139,29 +232,32 @@
 
 ### 类属性和实例属性
 +	属性查找顺序 A.__mro__
+	+	DFS
 +	新式类，继承类的属性查找方法
 
 ### 类静态实例方法
 +	实例方法 class 中的 def xxx(self):
 +	静态方法 @ staticmethod def xxx(xxx): return 类名.xxx
-+	静态方法调用：类.静态方法；把方法的命名空间变为类的命名空间
+	+	静态方法调用：类.静态方法；把方法的命名空间变为类的命名空间
+	+	和类相关的处理函数，和普通函数一样
 +	类方法 @ classmethod def xxx(cls,xxx): return cls.xxx
-+	类方法调用：类.类方法；传递cls
+	+	类方法调用：类.类方法；传递cls
 +	静态方法和类方法的区别
-+	静态方法不会访问到 class 本身 - 它基本上只是一个函数，在语法上就像一个方法一样，但是没有访问对象和它的内部（字段和其他方法），相反 classmethod 会访问 cls， instancemethod 会访问 self。
-+	子类覆盖了父类的静态方法，子类的实例继承了父类的static_method静态方法，调用该方法，还是调用的父类的方法和类属性。
-+	子类的实例继承了父类的class_method类方法，调用该方法，调用的是子类的方法和子类的类属性。
+	+	静态方法不会访问到 class 本身 - 它基本上只是一个函数，在语法上就像一个方法一样，但是没有访问对象和它的内部（字段和其他方法），相反 classmethod 会访问 cls， instancemethod 会访问 self。
+	+	子类覆盖了父类的静态方法，子类的实例继承了父类的static_method静态方法，调用该方法，还是调用的父类的方法和类属性。
+	+	子类的实例继承了父类的class_method类方法，调用该方法，调用的是子类的方法和子类的类属性。
 
 ### 数据封装
 +	私有属性：__xx （变形为实例.__类名__属性）
-+	私有属性只能在类的公共方法中使用
-+	私有属性实际上是对类名进行变形
+	+	self.__xx = xx
+	+	私有属性只能在类的公共方法中使用
+	+	私有属性实际上是对类名进行变形 _clsName__xx
 +	能解决继承时的命名冲突
 
 ### 自省机制
 +	通过一定的机制查询到对象的内部结构
-+	__dict__查询对象自身属性
-+	dict可以动态读取
++	对象.__dict__查询对象自身属性
++	dict可以动态读取,并修改
 +	dir()获取对象的所有属性：只有属性名称，没有属性值
 
 ### super
@@ -173,30 +269,32 @@
 
 ### 多继承的使用
 +	mixin模式：混合模式（组合模式）
-+	每个mixin类的功能单一
-+	不和基类关联，可以和任意基类组合，基类可以不和mixin关联就能初始成功
-+	在mixin中不要使用super这种用法
+	+	每个mixin类的功能单一
+	+	不和基类关联，可以和任意基类组合，但是基类可以不和mixin关联就能初始成功
+	+	在mixin中不要使用super这种用法：super会根据mro顺序调用mro的下一个super方法
 +	tips:Mixin尽量以minix结尾
 ###	with上下文管理器
 +	try:except：else: finally:
-+	如果try里面的异常没有被except捕捉到，且没有raise，将被else捕捉
-+	读取文件时如果文件出现异常，不管怎样都要在finally中关闭文件
-+	如果try,except,finally都有return 语句，如果try中有异常：根据压入堆栈的顺序，最后一定是先返回finally中的return语句
+	+	如果try里面的异常没有被except捕捉到，且没有raise，将被else捕捉
+	+	读取文件时如果文件出现异常，不管怎样都要在finally中关闭文件
+	+	如果try,except,finally都有return 语句，如果try中有异常：根据压入堆栈的顺序，最后一定是先返回finally中的return语句
 +	python是根据协议编程的
 +	with协议：enter,exit
+	+	class Sample: __enter__,__exit__,do_something
+	+	with Sample() as sample: sample.do_something()
 
 ###	contextlib上下文管理
 +	把一个函数变成一个上下文管理器
 +	import contextlib
 + @contextlib.contextmanager
-+	contextlib修饰的函数必须是一个生成器
-+	@contextlib.contextlib
-+	def file_open(xx):
-+	enter_xxx
-+	yield {}
-+	exit_xxx
-+	with file_open() as f_opened:
-+		print ('xxx')
+	+	contextlib修饰的函数必须是一个生成器
+	+	@contextlib.contextlib
+	+	def file_open(xx):
+		+	enter_xxx
+		+	yield {}
+		+	exit_xxx
+	+	with file_open() as f_opened:
+	+		print ('xxx')
 
 ## 自定义序列类
 +	序列类型分类

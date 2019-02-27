@@ -317,5 +317,152 @@
 +   drf缓存
 +   Throttling对用户和ip限速
 
+----------
+# drf 登录
+## base
++	配置setting
+>    REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
++	原理：取出cookie和session中的登录的user
++	类型：basic，token，session
++	session浏览器常见，系统自动附带，所以比较少见
++	常用的是token
+## token
++	INSTALLED_APPS = (
+    ...
+    'rest_framework.authtoken'
+)
++	makemigrations
++	migrate
++	使用token：一个user对应一个token
++	新建用户-新建token
+>	from rest_framework.authtoken.models import Token
+token = Token.objects.create(user=...)
+print(token.key)
+
++	使用：代码中创建用户时-新建token
++	前端访问-header中加入-Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
++	获取前端的token-post用户名密码到网页-返回token
+	
+>   from rest_framework.authtoken import views
+urlpatterns += [
+    url(r'^api-token-auth/', views.obtain_auth_token)
+]
+
++	如果请求中附带token-后端响应：-setting中添加token
++	setting中添加-rest-frame-work的token
+		
+>   REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+		'rest_framework.authentication.TokenAuthentication'
+    )
+}
+
++	缺点：drf的token放在服务器中，分布式无法处理；没有过期时间；每个数据页面都验证
+### Viewset中添加token
++	setting中不加token验证
++	>   REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
++	ViewSet中添加
++	from rest_framework.authentication import TokenAuthentication
+>	class UserViewset(viewsets.xxxx):
+	authentication_classes = (TokenAuthentication, )
+## 原理
++ session-process_request/process_response-注册之后会在传递到view之前自动处理
++ request-RequestMiddleWare-ReponseMiddleWare-response
++ 可以布置拦截器
++	django默认的-重在登录
++	drf的-重在验证
++	自动调用-TokenAuthentication中的-authenticate方法-如果任意一个注册了-认证通过-放在request中
++	登录信息在request.auth中
++	前后端认证-一般使用token来认证
+## jwt认证
++	原始：drf生成token-前端获取
++	缺点：cookie泄露；csrf漏洞；根据token请求id，存储压力
++	对称加密
++	适合传递web非敏感信息；用户认证和授权系统；web单点登录
+### 认证方式
++	jwt认证：简洁，自包含
++	header头：token类型，加密的算法
++	Payload：存放信息：签发者，过期时间，面对用户，接收方，签发时间
++	Signature：header+Payload+后端提供的秘钥+header中提供的签名算法=签名
++	header&Payload：base64加密，前端可以解密，获取相关信息
++	通过算法加密解密-服务器不需要存储cookie-session
+### 前端
++	登录-账户&密码-后端验证-生成jwt-前端接受jwt-前端保存jwt-跳转登录页或请求api
++	jwt-过滤器拦截请求，验证jwt-通过-业务操作&返回数据-展示数据-不通过-返回错误信息-提示错误-跳转
+### drf的jwt实现
++	pip install djangorestframework-jwt
++	setting配置：
+>   REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    )
+}
+
++	url配置：url(r'^api-token-auth/', obtain_jwt_token),
+>	from rest_framework_jwt.views import obtain_jwt_token
+
++	post 用户名，密码到接口-判断token生成
+### view和jwt借口调试
++	前端保存
++	cookie.setCookie('name',xxx,7)
++	cookie.setCookie('token',resposne.data.token,7)
++	放置到state中
+### 自定义用户认证
++	setting中配置
+>	AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
 
 
++	user.py中添加
+>   from django.contrib.auth.backends import ModelBackend
+>   from django.contrib.auth import get_user_model
+>   from django.db.models import Q
+		User = get_user_model()
+		class CustomBackend(ModelBackend):
+			    """
+			    自定义用户验证
+			    """
+			    def authenticate(self, username=None, password=None, **kwargs):
+			        try:
+			            user = User.objects.get(Q(username=username)|Q(mobile=username))
+			            if user.check_password(password):
+			                return user
+			        except Exception as e:
+			            return None
+
+
+### JWT过期时间认证
++	setting中配置
+>    import datetime
+	JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+}
+
+----------
+# 手机注册
+### 第三方服务	
+### 短信发送借口
++ SmsCodeViewset(CreateModelMixin，Viewsets.GenericViewSet):
++ serializer.py验证类 mobile = 
++ 重写 validate_mobile(self,data):
+### 注册
++	用户验证
++	验证码长度验证，时间验证

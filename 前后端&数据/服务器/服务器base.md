@@ -275,6 +275,9 @@
 1.	Request > Nginx > uWSGI > Django > uWSGI > Nginx > Response
 2.	请求先交由Nginx，如果是静态内容就自己处理了，如果是动态内容就交给uWSGI服务器，uWSGI服务器处理整个Django项目的Python代码，响应请求，原路返回，但是与fastcgi不同，Nginx、uWSGI和Django可以独立部署，然后整合。
 3.	ps ax | grep uwsgi
+4.	kill 7611 7612 7614
 
 ## uwsgi使用 
 [http://www.projectsedu.com/](http://www.projectsedu.com/)
+
+## uwsgi 重启
