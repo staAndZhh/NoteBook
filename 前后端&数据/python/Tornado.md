@@ -2,13 +2,14 @@
 + Tornado
 	+	web服务器
 	+	非阻塞式：非阻塞式和epoll运用
-	+	诞生是为了结局高并发和长连接
-	+	高并发websocker类-Tornado
+	+	诞生是为了解决高并发和长连接
+	+	web系统-Django/Flask/Tornado
+	+	高并发websocker类-Tornado(知乎/facebook)
 +	特点
 	+	web服务器
 	+	异步http客户端 AsyncHttpClient
 	+	Tornado的web框架是非常小的web框架的核心（微服务）
-	+	天然支持长连接
+	+	天然支持长连接(web聊天，消息推送）
 	+	学习tornado==学习asyncio
 +	模块知识
 	+	tornado web基础
@@ -33,7 +34,7 @@
 		+	协程
 	+	AsyncHttpClient
 		+	AsyncHttpClient
-		+	tornao实现并发爬虫
+		+	tornado实现并发爬虫
 	+	异步驱动aiomysql，peewee-async
 		+	aiomysql异步留言板
 		+	peewee的数据操作（增删改查）
@@ -51,22 +52,44 @@
 		+	model_to_dict完成序列化
 		+	异步方式发送短信
 		+	前后端分离：restful api
+# 演示功能
++	登陆注册(手机验证码）
++	社区&问答模块
+	+	社区-兴趣小组（筛选/排序）
+	+	申请加入/创建新小组（表单上传）
+	+	富文本发帖/评论/回复
++	问答
+	+	分类/排序
+	+	提问
+	+	问题评论/回复
++	个人中心
+	+	小组/问答
+	+	个人设置/内容更改
+	+	消息回复
 # 环境搭建
 +	安装
-	+	pycharm,python3.6/3.7
+	+	IDE:pycharm,python3.6/3.7
+	+	数据库：mysql,navicat
 	+	mysql：phpstudy
+	+	开发环境：virtualenv,virtualenvwrapper
++	mysql
+	+	utf-8 generic ci
++	虚拟环境
+	+	pip install virtualenv virtualenvwrapper-win
+	+	mkwirtualenv mxtext
+	+	mkvirtualenv -p xx\xx\xx\python37\python.exe mxtext37
 # 选型区别
 +	部署
 	+	tornado，gevent,asynio(3.5官方提供支持）,aiohttp：事件循环+协程io
 		+	部署方便
-	+	django
-	+	flask
+		+	node.js和go也得益于协程实现高并发
+	+	django,flask
 		+	阻塞io
 		+	生态丰富，容易理解
 		+	概念：web框架，usgi,uwsgi,uWSGI,nginx
 		+	部署麻烦
 +	Tornado优势
-	+	异步编码整套解决方案
+	+	异步编码整套解决方案(http,websocker协议）
 	+	不只是web框架，也是web服务器
 	+	基于协程的解决方案
 	+	提供websocker的长连接（web聊天，消息推送）
@@ -75,19 +98,48 @@
 	+	基于epoll的事件循环
 	+	协程提高了代码的可读性
 +	误区
-	+	tornado只提供web框架
+	+	tornado只提供web框架(还提供了web服务器的功能）
 	+	tornado使用了就是高并发
-	+	tornado使用大量同步io
+	+	tornado使用大量同步io(不建议使用）
 	+	tornado只是将耗时的操作放在线程池里就可以高并发
-	+	tornado的多线程和协程的单线程是不是冲突
+	+	tornado的多线程和协程的单线程是不是冲突(不冲突）
 +	建议
-	+	减量使用async而不是 coroutine
+	+	减量使用async而不是 coroutine装饰器
 	+	基于coroutine是一个从生成器过渡到协程的方案
 	+	yield和await混合使用造成代码可读性差
 	+	生成器可以模拟协程，但是不必须
 	+	原生协程总体比基于装饰器的协程快
-	+	原生协防返回awaitable对象，转时期协程返回future
-# 异步和非阻塞
+	+	原生协程返回awaitable对象，装饰器协程返回future
+# 协程和非阻塞
+## 事实
++	cpu速度高于io速度
++	io包括网络访问和本地访问，比如requests,urllib等都是同步库
++	网络io大部分时间都是处于等待状态，等待的时候cpu是空闲的，又不能执行其他操作
+## 阻塞/非阻塞
++	关注调用接口时当前线程的状态
++	阻塞：调用函数时候当前线程被挂起
++	非阻塞：调用函数时当前线程不会被挂起，而是立即返回
+## 同步/异步
++	关注获取结果的方式，逻辑&业务层
++	同步可以调用阻塞&非阻塞
++	异步是调用非阻塞
+## select/poll/epoll
++	IO多路复用
++	一个进程监视多个描述符
++	本质上还是同步IO：需要在读写事件就绪后自己读写：读写过程是阻塞的
++	异步IO无需自己负责读写：异步IO的实现负责把数据从内核拷贝到用户空间
+## select
++	文件描述符：writefds,readfds,exceptfds
++	支持所有平台
++	单进程监视的文件描述符的数量存在最大限制
+## poll
++	指针
+## epoll
++	一个文件描述符
++	底层红黑树
+## 协程
++	回调：过深无法维护，栈异常无法抛出
++	协程：可以被暂停并切换到其他协程运行的函数	
 ## 主要功能
 +	
 # tips
@@ -95,7 +147,9 @@
 	+	Web Server Gateway Interface 一种规范：webserver和web application通信的规范
 	+	通信协议
 	+	两部分：server，application
+	+	server:客户端-request-application-response-客户端
+	+	application：server-request-middlewares-response-server
++	uwsgi
+	+	通信协议，是uWSGI服务器的独占协议，用于定义传输信息的类型
 +	uWSGI
 	+	web服务器，实现了WSGI协议，uwsgi，http协议
-+	uwsgi
-	+	uWSGI服务器的独占协议，定义传输信息的类型

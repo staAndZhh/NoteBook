@@ -7,7 +7,10 @@
 
 
 1.	中间件架构（sql注入，请求访问控制/频率控制，防爬虫）
-2.	性能优化（http性能压测	，系统性能优化，性能瓶颈分析，nginx性能配置优化）
+2.	中间件性能优化（http性能压测	，系统性能优化，性能瓶颈分析，nginx性能配置优化）
+# 技术原理
+1.	http协议原理
+2.	linux协议原理
 
 #	基础
 1.	快速安装
@@ -31,7 +34,7 @@
 	5.	**静态资源压缩**
 	6.	**防盗链**
 	7.	**跨域访问**
-2.	代理服务
+2.	**代理服务**
 3.	负载均衡
 4.	缓存服务
 #	深度学习
@@ -56,6 +59,24 @@
 5.	架构设计
 
 -------------
+# 	环境
+## 环境调试确认
+1.	系统网络
+ping www.baidu.com
+2.	yum可用
+yum list|grep gcc
+3.	关闭iptables规则
+iptables -L
+iptables -F
+iptabales -t nat -L
+iptables -t nat -F
+4.	停用selinux
+getenforce
+setenforce 0
+## 辅助安装
+1.	![](https://i.imgur.com/iKkCbnA.png)
+2.	yum -y install wget httpd-tools vim
+3.	![](https://i.imgur.com/TYE6UcG.png)
 #	2.1 配置&介绍
 1.	初始化
 2.	cd /opt

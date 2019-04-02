@@ -281,3 +281,104 @@
 [http://www.projectsedu.com/](http://www.projectsedu.com/)
 
 ## uwsgi 重启
+## django重启
+sudo fuser -k 8000/tcp
+sudo netstat -tulpn | grep:8000
+lsof -i:8000
+kill -9 PID
+ps ax | grep uwsgi
+pkill -f uwsgi -9
+uwsgi --http :8000 --wsgi-file test.py 
+uwsgi --http :8000 --module smbd.wsgi
+uwsgi --http :8000 --ini smbd.wsgi
+uwsgi -i 你的目录/Mxonline/conf/uwsgi.ini &
+uwsgi --ini uwsgi.ini
+## reset config
+sudo fuser -k 8000/tcp
+ps ax | grep uwsgi
+pkill -f uwsgi -9
+uwsgi -i /home/zhh_manager/.virtualenvs/semirpro/smbd/conf/uwsgi.ini &
+sudo nginx -t
+sudo /etc/init.d/nginx restart
+## nginx关键域
+http配置域
+upstream配置域
+### 层次关系
+events {
+...
+}
+
+http{
+...
+	upstream{
+	...
+	}
+	server{
+	...
+		location {
+		...
+		}
+}
+}
+mail {
+...
+}
+## 部署
+###  web Client <=>uWSGI <=> python <=> Django
+#### test.py
+test.py
+uwsgi --http :8000  --uwsgi-file test.py 
+#### django
+python manage.py runserver 0.0.0.0:8000
+#### django <=> uwsgi
+uwsgi --http :8000 --module smbd.wsgi
+uwsgi --http :8000 --ini smbd.wsgi
+#### 命令行配置改为文件配置
+chdir =
+module = 
+http =:8000
+http-socker =:8000
+master = True
+processes = 4
+threads = 1
+vacuum = true
+
+
+uwsgi --ini xx/xx/smbd.ini
+### nginx <=> uWSGI
+uWSGI启动django
+nginx反向代理配置
+收集静态文件，完成静态文件寻址配置
+
+# the upstream component nginx needs to connect to
+upstream django{
+# server unix:///path/to/your/mysite/mysite.sock; # for a file socket
+server 127.0.0.1:8000; # for a web port socket (we'll use this first)
+}
+# configuration of the server
+
+server {
+# the port your site will be served on
+listen      80;
+# the domain name it will serve for
+server_name	.semir.pro; # substitute your machine's IP address or FQDN
+charset     utf-8;
+
+# max upload size
+client_max_body_size 75M;   # adjust to taste
+
+# Django media
+location /media  {
+    alias /home/zhh_manager/.virtualenvs/semirpro/smbd/media;  # 指向django的media目录
+}
+
+location /static {
+    alias /home/zhh_manager/.virtualenvs/semirpro/smbd/static; # 指向django的static目录
+}
+
+# Finally, send all non-media requests to the Django server.
+location / {
+    proxy_pass	http://django;
+#   include     /home/zhh_manager/.virtualenvs/semirpro/smbd/conf/nginx/uwsgi_params; # the uwsgi_params file you installed
+}
+}

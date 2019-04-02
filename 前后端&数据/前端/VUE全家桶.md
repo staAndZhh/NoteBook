@@ -16,6 +16,7 @@
 +   当前环境：vue-cli@3，vue@2.5
 +   npm install -g @vue/cli
 +   yarn global add @vue/cli
++   yarn add vuex
 +   vue -V
 +   vue -version
 +   vue create vue-learn
