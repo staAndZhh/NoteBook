@@ -1924,19 +1924,34 @@ git commit -m 'init '
 
 git push
 
-## 单文件与组件
+## 单文件组件
 
 单文件组件：xx.vue
+
+引入文件 import Home from '@/pages/home/Home.vue'
+
+@代表src目录
+
+组成结构：
 
 UI :template
 
 style: 
 
-script
+script:
 
 ## 路由
 
 根据功能不同；返回不同的页面
+
+```
+<template>
+  <div>
+    <div class="home">home</div>
+    <router-link to="/list">列表页</router-link>
+  </div>
+</template>
+```
 
 ## 单页与多页应用
 
@@ -1951,6 +1966,118 @@ meta元素
 reset.css引入
 
 border.css引入
+
+300毫秒点击延迟：安装fastClick库
+
+npm install fastclick --save
+
+字体图标：
+
+```
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import fastClick from 'fastclick'
+import './assets/styles/reset.css'
+import './assets/styles/border.css'
+
+Vue.config.productionTip = false
+fastClick.attach(document.body)
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})
+```
+
+
+
+### 提交
+
+git add .
+
+git commit -m 'project init'
+
+git push
+
+# 首页
+
+## header
+
+### stylus
+
+npm install stylus  stylus-loadeer  --save
+
+<style lang="stylus" scoped></style>
+
+### IconFont
+
+styles/iconfont
+
+### 路径别名
+
+webpack.base.conf.js
+
+添加style变量
+
+### 轮播图
+
+Vue-awesome-swiper
+
+### ajax
+
+npm install axios --save
+
+vue放在static下的文件下可以通过模拟axios访问
+
+添加static/mock到忽略文件
+
+端口转发：proxyTable:{
+
+​	"/api":{
+
+​	target:"http://localhost:8000",
+
+​	pathRewrite:{
+
+​	'^api/':"/staric/mock"
+
+​	}
+
+​	}
+
+}
+
+### 父子组件传值
+
+父组件: data:{xx:""}
+
+methods:{
+
+getXX(res){
+
+​	this.xx = data.xx
+
+}
+
+}
+
+子组件 :xx="xx"
+
+props:{xx:[]}
+
+
+
+# 城市列表页
+
+# 详情页面
+
+# 联调&测试&发布
+
+
 
 
 
