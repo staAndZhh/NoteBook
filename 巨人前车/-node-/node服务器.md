@@ -555,3 +555,480 @@ module.exports = serverHandle
 
 ### 初始化路由
 
+返回假数据：把路由和数据处理分离，符合设计原则
+
+### 项目结构
+
+demo
+
+​	blog
+
+​		bin
+
+​			www.js
+
+​		node_modules
+
+​		src
+
+​			router
+
+​				blog.js
+
+​				user.js
+
+​		app.js
+
+​		package.json
+
+#### www
+
+const http = require('http')
+const PORT = 8000
+const serverHandle = require("../app")
+
+const server = http.createServer(serverHandle)
+server.listen(PORT)
+
+#### app
+
+const handleBlogRouter = require('./src/router/blog')
+const handleUserRouter = require('./src/router/user')
+const serverHandle = (req, res) =>{
+    // 设置返回格式
+    // res.setHeader('Content-type','application/json')
+
+// const resData = {
+//     name:'zhh100',
+//     site:'imooc',
+//     env:process.env.NODE_ENV
+// }
+// res.end(
+//     JSON.stringify(resData)
+// )
+
+res.setHeader('Content-type','application/json')
+const blogData = handleBlogRouter(req,res)
+if(blogData){
+    res.end(
+        JSON.stringify(blogData)
+    )
+    return
+}
+
+const userData = handleBlogRouter(req,res)
+if(blogData){
+    res,end(
+        JSON.stringify(userData)
+    )
+    return
+}
+
+res.writeHeader(404,{'Content-type':'text/plain'})
+res.write('404 not Fond')
+res.end()
+
+}
+module.exports = serverHandle
+
+####  blog
+
+const handleBlogRouter = (req, res) =>{
+    const  method = req.method //GET POST
+    const url = req.url
+    const path = url.split('?')[0]
+//    获取博客列表
+    if(method === "GET" && path === "/api/blog/list"){
+        return {
+            msg:'this is get blog'
+        }
+    }
+//    获取博客详情
+    if(method === "GET" && path === "/api/blog/detail"){
+        return {
+            msg:'this is get blog details'
+        }
+    }
+
+//    新建博客详情
+if(method === "POST" && path === "/api/blog/new"){
+    return {
+        msg:'this is new blog '
+    }
+}
+
+//    更新博客详情
+if(method === "POST" && path === "/api/blog/update"){
+    return {
+        msg:'this is update blog '
+    }
+}
+
+//    删除博客详情
+if(method === "POST" && path === "/api/blog/del"){
+    return {
+        msg:'this is del blog '
+    }
+}
+
+}
+module.exports = handleBlogRouter
+
+#### user
+
+const handleUserRouter = (req, res) =>{
+    const  method = req.method //GET POST
+    const url = req.url
+    const path = url.split('?')[0]
+
+//login
+if(method === 'POST' && path === '/api/user/login'){
+    return {
+        msg:'this is login'
+    }
+}
+
+}
+module.exports = handleUserRouter
+
+#### run
+
+npm run dev
+
+### 路由和API
+
+API：
+
+前端和后端，不同子系统之间对话的术语
+
+路由：
+
+api的一部分
+
+后端系统内部的一个模块
+
+# 连接MySQL
+
+安装 mysql
+
+安装 workbench（mysql工具）
+
+## 建库
+
+## 增删改查
+
+## node操作数据库
+
+示例：demo演示，不考虑使用
+
+封装：封装为系统可用的工具
+
+使用：api直接操作，不使用假数据
+
+### base
+
+npm init -y
+
+npm i mysql
+
+const mysql = require('mysql')
+
+const con = mysql.createConnection({
+
+​	host:'localhost',
+
+​	user:'root',
+
+​	password:'xxx',
+
+​	port:'3306',
+
+​	database:'my'
+
+})
+
+con.connect()
+
+const sql= "select * from users;"
+
+con.query(sql,(err,result)=>{
+
+​	if(err){
+
+​	console.error(err)
+
+​	return
+
+​	}
+
+​	console.log(result)
+
+})
+
+con.end()
+
+### 工具链
+
+#### 配置
+
+db.js
+
+const env = process.env.NODE_ENV
+
+let  MYSQL_CONF 
+
+if(env ==="dev"){
+
+​	MYSQL_CONF = {
+
+​	host:'localhost',
+
+​	user:'root',
+
+​	password:'xxx',
+
+​	port:'3306',
+
+​	database:'my'
+
+}
+
+}
+
+if(env ==="production"){
+
+​	MYSQL_CONF = {
+
+​	host:'localhost',
+
+​	user:'root',
+
+​	password:'xxx',
+
+​	port:'3306',
+
+​	database:'my'
+
+}
+
+}
+
+module.exports = {
+
+MYSQL_CONF 
+
+}
+
+#### 中间层
+
+const mysql = require('mysql')
+
+const { MYSQL_CONF  } = require('../conf/db')
+
+const con = mysql.createConnection(MYSQL_CONF)
+
+con.connect()
+
+function exec(sql){
+
+​	const promise = new Promise((reslove,reject)=>{
+
+​		con.query(sql,(err,result)=>{
+
+​			if(err){
+
+​				reject(err)
+
+​				return
+
+​			}
+
+​			      reslove(result)
+
+​		})
+
+​	})
+
+​	return promise
+
+}
+
+module.exports = {
+
+​	exec
+
+}
+
+#### 使用
+
+const getList  = (author,keyword)=>{
+
+​	let sql = "select *  from blogs where 1=1"
+
+​	if (author){
+
+​		sql+=`and author='${author}'`
+
+​	}if(keyword){
+
+​		sql+=`and title='${keyword}'`
+
+​		}
+
+​		sql+='order by createtime desc;'
+
+}
+
+const result = getList(author,keyword)
+
+result.then(listData =>{
+
+​	return new SuccessModel(listData)
+
+})
+
+if(result){
+
+​	result.then(blogData =>{
+
+​		res.end(JSON.stringify(blogData))
+
+​	})
+
+}
+
+# 登录系统
+
+核心：登录校验&登录信息存储
+
+基本注册，无意义；
+
+现在多为：短信，微信登录
+
+## cookie
+
+### 定义
+
+存储在浏览器的一段字符串，max5kb
+
+隔离，跨域不共享
+
+格式如：k1=v1;k2=v2;k3=v3;可以存储结构化数据
+
+每次发送http请求，会把请求域的cookie一起发送给server
+
+server可以修改cookie并返回给浏览器
+
+浏览器中也可以通过js修改cookie(有限制)
+
+### js操作
+
+查看:
+
+浏览器查看cookie的方式：3种
+
+req发送时,res返回时;
+
+application;
+
+控制台：document.cookie
+
+修改：
+
+document.cookie="k2=100;" //不能删除智能添加
+
+### server验证
+
+#### 查看cookie
+
+req.cookie ={}
+
+const cookieStr = req.headers.cookie ||''
+
+cookieStr.split(';').forEach(item=>{
+
+​	if(!item){
+		return
+
+​	}
+
+​	const arr = item.split('=')
+
+​	const key = arr[0].trim()
+
+​	const val = arr[1].trim()
+
+​	req.cookie[key] = val
+
+})
+
+#### 修改cookie
+
+res.setHeader('Set-Cookie',`username=${data.username};path=/`)
+
+#### 登录验证
+
+登录-验证-写入cookie-前端验证cookie
+
+res.setHeader('Set-Cookie',`username=${data.username};path=/;httpOnly`)
+
+过期时间
+
+const getCookieExpires =()=>{
+
+​	const d = new Date()
+
+​	d.setTime(d.getTime()+24*60*60*60*1000)
+
+​	return d.toGMTString()
+
+}
+
+res.setHeader('Set-Cookie',`username=${data.username};path=/;httpOnly;expires=${getCookieExpires}`)
+
+## session
+
+cookie存放username很危险
+
+解决：
+
+cookie中存储userid，server端对应username
+
+解决方案：
+
+session,服务器端存储用户信息
+
+### base
+
+cont SESSION_DATA  = 
+
+##redis
+
+内存数据库
+
+存储session
+
+##nginx联调
+
+# 日志系统
+
+## stream
+
+
+
+# 安全系统
+
+## sql注入
+
+## xss攻击
+
+# express重构
+
+# KO2重构
+
+# 上线配置
+
+
+
+
+

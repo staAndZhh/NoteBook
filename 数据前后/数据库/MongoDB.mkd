@@ -1,0 +1,7 @@
+# MongoDB
+## base
++ collection 库:表格
++   document 数据行
++ field 数据字段
++   index
++   primary key
